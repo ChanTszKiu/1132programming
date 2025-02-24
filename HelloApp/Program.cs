@@ -9,6 +9,7 @@ namespace HelloApp
             Console.WriteLine("Hi, C#!");
             Console.WriteLine("How do you do?");
             Console.WriteLine("Let's do it.");
+            Console.WriteLine("Hello World");
 
             Console.ReadKey();
         }
