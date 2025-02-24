@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35806.99 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloApp", "HelloApp\HelloApp.csproj", "{DEFB4AB8-D267-4ACA-8A66-522AD12D0B95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrianglrApp", "TrianglrApp\TrianglrApp.csproj", "{DDB080BD-ABB1-4C28-A064-EAE7C3E50C75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DEFB4AB8-D267-4ACA-8A66-522AD12D0B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEFB4AB8-D267-4ACA-8A66-522AD12D0B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEFB4AB8-D267-4ACA-8A66-522AD12D0B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB080BD-ABB1-4C28-A064-EAE7C3E50C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB080BD-ABB1-4C28-A064-EAE7C3E50C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB080BD-ABB1-4C28-A064-EAE7C3E50C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB080BD-ABB1-4C28-A064-EAE7C3E50C75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
