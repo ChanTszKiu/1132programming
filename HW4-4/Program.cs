@@ -46,8 +46,6 @@ namespace HW4_4
             }
 
             Console.WriteLine($"Number of leap years between {a} and {b} is {leapYearCount}");
-
-            Console.ReadKey();
         }
     }
 
