@@ -6,8 +6,11 @@ namespace ConsoleSnakeGame
 {
     class Program
     {
+        // 遊戲場地大小
         static int width = 40;
         static int height = 20;
+
+        // 蛇的身體與遊戲控制變數
         static List<Position> snake = new List<Position>();
         static Position food;
         static Direction direction = Direction.Right;
@@ -21,22 +24,25 @@ namespace ConsoleSnakeGame
         {
             Console.CursorVisible = false;
             Init();
+            Draw(); // 一開始先畫出提示畫面
+
             bool paused = false;
 
             while (!gameOver)
             {
+                // 有鍵盤輸入時處理
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true).Key;
 
-                    // 遊戲尚未開始：按任一方向鍵或 WASD 啟動
+                    // 還沒開始：只要按方向鍵或 WASD 就開始
                     if (!gameStarted && IsMovementKey(key))
                     {
                         gameStarted = true;
-                        ChangeDirection(key);
+                        ChangeDirection(key); // 第一下輸入也轉向
                         Console.Clear();
                         Console.SetCursorPosition(0, height + 2);
-                        Console.WriteLine($"🎮 遊戲開始，目前速度 Lv.{level}");
+                        Console.WriteLine($"遊戲開始，目前速度 Lv.{level}");
                         Thread.Sleep(1000);
                     }
 
@@ -49,6 +55,7 @@ namespace ConsoleSnakeGame
                     }
                 }
 
+                // 遊戲啟動且沒暫停時執行移動與繪製
                 if (gameStarted && !paused)
                 {
                     Move(ref speed);
@@ -59,10 +66,11 @@ namespace ConsoleSnakeGame
             }
 
             Console.SetCursorPosition(0, height + 4);
-            Console.WriteLine("💀 Game Over! Press any key to exit...");
+            Console.WriteLine("Game Over! Press any key to exit...");
             Console.ReadKey();
         }
 
+        // 遊戲初始化
         static void Init()
         {
             snake.Clear();
@@ -73,11 +81,12 @@ namespace ConsoleSnakeGame
             GenerateFood();
         }
 
+        // 畫出整個畫面
         static void Draw()
         {
             Console.Clear();
 
-            // 邊框
+            // 畫邊框
             for (int i = 0; i <= width; i++)
             {
                 Console.SetCursorPosition(i, 0);
@@ -93,18 +102,18 @@ namespace ConsoleSnakeGame
                 Console.Write("#");
             }
 
-            // 食物
+            // 畫食物
             Console.SetCursorPosition(food.X, food.Y);
             Console.Write("O");
 
-            // 蛇
+            // 畫蛇
             foreach (var pos in snake)
             {
                 Console.SetCursorPosition(pos.X, pos.Y);
                 Console.Write("*");
             }
 
-            // 顯示分數與提示
+            // 分數與提示文字
             Console.SetCursorPosition(0, height + 1);
             Console.Write($"Score: {snake.Count - 3}");
 
@@ -114,16 +123,16 @@ namespace ConsoleSnakeGame
             if (!gameStarted)
             {
                 Console.SetCursorPosition(0, height + 3);
-                Console.Write("請按 ↑ ↓ ← → 或 W A S D 鍵開始遊戲...");
+                Console.Write("請按 方向鍵 或 W A S D 鍵開始遊戲...");
             }
         }
 
+        // 控制移動與邏輯
         static void Move(ref int speed)
         {
             Position head = snake[0];
             Position newHead = new Position(head.X, head.Y);
 
-            // 依照方向移動新蛇頭
             switch (direction)
             {
                 case Direction.Up: newHead.Y--; break;
@@ -132,14 +141,13 @@ namespace ConsoleSnakeGame
                 case Direction.Right: newHead.X++; break;
             }
 
-            // 撞牆或自撞則結束遊戲
+            // 撞牆或自撞
             if (newHead.X == 0 || newHead.X == width || newHead.Y == 0 || newHead.Y == height || snake.Contains(newHead))
             {
                 gameOver = true;
                 return;
             }
 
-            // 移動蛇：插入新頭
             snake.Insert(0, newHead);
 
             // 吃到食物
@@ -148,24 +156,25 @@ namespace ConsoleSnakeGame
                 GenerateFood();
                 int score = snake.Count - 3;
 
-                // 每 5 分升級並加快速度（最多至 Lv.n）
+                // 每 5 分升級一次速度
                 if (score / 5 + 1 > level)
                 {
                     level = score / 5 + 1;
                     if (speed > 40) speed -= 10;
 
                     Console.SetCursorPosition(0, height + 3);
-                    Console.WriteLine($"⚡ 分數達標！速度上升一級！現在速度為 Lv.{level}");
+                    Console.WriteLine($"分數達標！速度上升一級！現在速度為 Lv.{level}");
                     Thread.Sleep(1000);
                 }
             }
             else
             {
-                // 沒吃到：移除尾巴
+                // 沒吃到則移除尾巴
                 snake.RemoveAt(snake.Count - 1);
             }
         }
 
+        // 處理方向轉向（含方向鍵與 WASD）
         static void ChangeDirection(ConsoleKey key)
         {
             switch (key)
@@ -189,6 +198,7 @@ namespace ConsoleSnakeGame
             }
         }
 
+        // 判斷是否為方向控制鍵
         static bool IsMovementKey(ConsoleKey key)
         {
             return key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow ||
@@ -197,6 +207,7 @@ namespace ConsoleSnakeGame
                    key == ConsoleKey.S || key == ConsoleKey.D;
         }
 
+        // 隨機產生新食物
         static void GenerateFood()
         {
             Position newFood;
@@ -208,8 +219,10 @@ namespace ConsoleSnakeGame
             food = newFood;
         }
 
+        // 方向列舉
         enum Direction { Up, Down, Left, Right }
 
+        // 座標資料結構
         struct Position
         {
             public int X;
